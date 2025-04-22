@@ -7,7 +7,7 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 
 ## Important to Know:
 - It is recommended by Percona that you build the cluster with **odd number** of nodes to maintain **quorum**.
-- Quorum is the minimum number of nodes in a cluster that must agree and be active to make decisions and maintain consistency.
+- A quorum is the minimum number of nodes in a cluster that must agree and be active to make decisions and maintain consistency.
 - With even number of nodes **Split Brain** problem can occur.
 - Split Brain is a situation in distributed systems where network partitions cause cluster nodes to operate independently, risking data inconsistency and conflicts.
 - For even number of nodes, you should create another node (**arbitrator**) to avoid Split Brain. (_especially for Production level_)
@@ -20,4 +20,29 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 - SSL certificates are digital credentials used at the _Presentation layer_ to encrypt data and ensure secure communication between clients and servers over the internet.
 - For this lab, I have to set the pxc-encrypt-cluster-traffic = OFF to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
 - All machines must have **same OS version** and same **percona-xtradb-cluster** version.
+
+# Before we proceed, Let's understand
+
+## Multi-Master Architecture vs Master-Slave Architecture
+### Multi-Master Architecture
+- All nodes can handle both reads and writes, offering high availability and scalability but **requiring conflict resolution**.
+#### Definition: 
+In a multi-master architecture, all nodes in the cluster can handle both read and write operations. Changes made to any node are replicated to all other nodes in the cluster, ensuring data consistency across all nodes.
+#### Write Operations:
+- Write operations can be performed on any node in the cluster.
+- The changes are synchronously or asynchronously replicated to all other nodes in the cluster, ensuring that all nodes eventually have the same data.
+#### Read Operations:
+- Read operations can also be performed on any node, and the data is guaranteed to be consistent across all nodes (though in some configurations, there might be small delays due to replication lag).
+
+### Master-Slave Architecture
+- Only the master handles writes while slaves handle reads, making it simpler but limiting write scalability and posing a **single point of failure**.
+#### Definition: 
+In a master-slave architecture, one node (the master) is responsible for handling all write operations, while one or more slave nodes handle read operations. The master node replicates its data to the slave nodes.
+#### Write Operations:
+- All write operations (insert, update, delete) are performed on the master node.
+- The master node sends the changes to the slave nodes to ensure they have the same data.
+#### Read Operations:
+- Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
+
+
 
