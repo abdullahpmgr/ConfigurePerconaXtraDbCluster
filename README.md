@@ -20,8 +20,8 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 - For this lab, I have set the **pxc-encrypt-cluster-traffic = OFF** to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
 - All machines must have **same OS version** and same **percona-xtradb-cluster** version.
 
-# Before we proceed, let's understand: 
-# Multi-Master Architecture vs Master-Slave Architecture
+## Before we proceed, let's understand: 
+## Multi-Master Architecture vs Master-Slave Architecture
 
 ## Multi-Master Architecture
 - All nodes can handle both reads and writes, offering high availability and scalability but **requiring conflict resolution**.
@@ -45,7 +45,7 @@ In a master-slave architecture, one node (the master) is responsible for handlin
 #### Read Operations:
 - Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
 
-# Synchronous Replication vs Asynchronous Replication
+## Synchronous Replication vs Asynchronous Replication
 #### Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
 #### Asynchronous Replication: Data is written to the primary node first, and changes are replicated to secondary nodes later, offering faster writes but potentially leading to temporary data inconsistency.
 
