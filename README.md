@@ -17,7 +17,7 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 - **SSL (Secure Sockets Layer)** validation is very important during configuration.
 - All nodes must have same SSL certificates, otherwise **connection timeout errors** will occur.
 - _SSL certificates_ are digital credentials used at the _Presentation layer_ to encrypt data and ensure secure communication between clients and servers over the internet.
-- For this lab, I have to set the pxc-encrypt-cluster-traffic = OFF to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
+- For this lab, I have set the **pxc-encrypt-cluster-traffic = OFF** to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
 - All machines must have **same OS version** and same **percona-xtradb-cluster** version.
 
 # Before we proceed, Let's understand
