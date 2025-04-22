@@ -6,17 +6,17 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 
 ## Important to Know:
 - It is recommended by **Percona** that you build the cluster with **odd number** of nodes to maintain **quorum**.
-- A quorum is the minimum number of nodes in a cluster that must agree and be active to make decisions and maintain consistency.
+- A _quorum_ is the minimum number of nodes in a cluster that must agree and be active to make decisions and maintain consistency.
 - With even number of nodes **Split Brain** problem can occur.
-- Split Brain is a situation in distributed systems where network partitions cause cluster nodes to operate independently, risking data inconsistency and conflicts.
+- _Split Brain_ is a situation in distributed systems where network partitions cause cluster nodes to operate independently, risking data inconsistency and conflicts.
 - For even number of nodes, you should create another node (**arbitrator**) to avoid Split Brain. (_especially for Production level_)
-- An arbitrator machine is a lightweight node in a cluster that helps maintain quorum and resolve split-brain scenarios without storing actual data.
+- An _arbitrator machine_ is a lightweight node in a cluster that helps maintain quorum and resolve split-brain scenarios without storing actual data.
 - Percona is based on Galera. And **Galera** only supports **row-level replication**.
-- Galera is a **synchronous multi-master database replication** plugin that enables high-availability clustering for MySQL and MariaDB.
-- Row-level replication is a replication method where individual row changes (INSERT, UPDATE, DELETE) are copied from one database node to another.
+- _Row-level replication_ is a replication method where individual row changes (INSERT, UPDATE, DELETE) are copied from one database node to another.
+- _Galera_ is a **synchronous multi-master database replication** plugin that enables high-availability clustering for MySQL and MariaDB.
 - **SSL (Secure Sockets Layer)** certificates validation is very important during configuration.
 - All nodes must have same SSL certificates, otherwise **connection timeout errors** will occur.
-- SSL certificates are digital credentials used at the _Presentation layer_ to encrypt data and ensure secure communication between clients and servers over the internet.
+- _SSL certificates_ are digital credentials used at the _Presentation layer_ to encrypt data and ensure secure communication between clients and servers over the internet.
 - For this lab, I have to set the pxc-encrypt-cluster-traffic = OFF to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
 - All machines must have **same OS version** and same **percona-xtradb-cluster** version.
 
