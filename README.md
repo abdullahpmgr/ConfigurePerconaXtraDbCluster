@@ -45,8 +45,16 @@ In a master-slave architecture, one node (the master) is responsible for handlin
 - Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
 
 ## Synchronous Replication vs Asynchronous Replication
-#### Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
-#### Asynchronous Replication: Data is written to the primary node first, and changes are replicated to secondary nodes later, offering faster writes but potentially leading to temporary data inconsistency.
+**In synchronous replication**, when a write operation (e.g., insert, update, delete) is performed on the primary node, the system ensures that the data is immediately written to all replica nodes before the operation is considered complete. Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
+- Synchronous replication prioritizes data consistency and no data loss but can suffer from higher latency and performance overhead.
+
+**In asynchronous replication**, when a write operation is performed on the primary node, it is immediately confirmed without waiting for the replica nodes to receive the data. The changes are then replicated to the secondary nodes in the background, at a later time.
+- Asynchronous replication prioritizes performance and low-latency writes but can risk data inconsistency or loss in case of node failure before replication occurs.
+
+# For this Lab
+
+**Hardware Resources** to build **cluster with 2 nodes** without Arbitrator Machine.
+![image](https://github.com/user-attachments/assets/a0fd5e5e-6d8e-477c-9934-0b7c4b7c37b6)
 
 
 
