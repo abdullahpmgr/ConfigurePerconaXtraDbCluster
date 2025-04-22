@@ -1,4 +1,4 @@
-# ConfigurePerconaXtraDbCluster
+![image](https://github.com/user-attachments/assets/96203386-8834-427c-a575-0a3e84759245)# ConfigurePerconaXtraDbCluster
 This repository explains how to configure Percona XtraDb Cluster for MySQL InnoDB Engine using Oracle Linux 8-U5.
 
 - Percona XtraDB Cluster (PXC) is an open-source, high-availability and high-performance solution for MySQL and MariaDB database clustering.
@@ -45,17 +45,22 @@ In a master-slave architecture, one node (the master) is responsible for handlin
 - Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
 
 ## Synchronous Replication vs Asynchronous Replication
-**In synchronous replication**, when a write operation (e.g., insert, update, delete) is performed on the primary node, the system ensures that the data is immediately written to all replica nodes before the operation is considered complete. Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
+> **In synchronous replication**, when a write operation (e.g., insert, update, delete) is performed on the primary node, the system ensures that the data is immediately written to all replica nodes before the operation is considered complete. Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
 - Synchronous replication prioritizes data consistency and no data loss but can suffer from higher latency and performance overhead.
 
-**In asynchronous replication**, when a write operation is performed on the primary node, it is immediately confirmed without waiting for the replica nodes to receive the data. The changes are then replicated to the secondary nodes in the background, at a later time.
+> **In asynchronous replication**, when a write operation is performed on the primary node, it is immediately confirmed without waiting for the replica nodes to receive the data. The changes are then replicated to the secondary nodes in the background, at a later time.
 - Asynchronous replication prioritizes performance and low-latency writes but can risk data inconsistency or loss in case of node failure before replication occurs.
 
-# For this Lab
+# In this Lab Manual 
+- We will build **cluster with 2 nodes** without Arbitrator Machine.
+- VMware Workstation Pro 17 is used to create 2 virtual machines in order to simulate real-world nodes. 
 
-**Hardware Resources** to build **cluster with 2 nodes** without Arbitrator Machine.
 ![image](https://github.com/user-attachments/assets/a0fd5e5e-6d8e-477c-9934-0b7c4b7c37b6)
-
+1. I have created 2 virtual machines with above resources. 
+2. If you already have mysql. Delete it or make sure it is compatible with latest **percona-xtradb-cluster**.
+3. Before installation, stop MySQL service. 
+4. Install Percona-xtradb-cluster using following commands:
+ 
 
 
 
