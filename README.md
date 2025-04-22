@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/96203386-8834-427c-a575-0a3e84759245)# ConfigurePerconaXtraDbCluster
+# ConfigurePerconaXtraDbCluster
 This repository explains how to configure Percona XtraDb Cluster for MySQL InnoDB Engine using Oracle Linux 8-U5.
 
 - Percona XtraDB Cluster (PXC) is an open-source, high-availability and high-performance solution for MySQL and MariaDB database clustering.
@@ -35,7 +35,7 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 
 ## Master-Slave Architecture
 > Only the master handles writes while slaves handle reads, making it simpler but limiting write scalability and posing a **single point of failure**.
-  
+>  
 > #### Definition: 
 > In a master-slave architecture, one node (the master) is responsible for handling all write operations, while one or more slave nodes handle read operations. The master node replicates its data to the slave nodes.
 > #### Write Operations:
@@ -58,6 +58,27 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 2. If you already have mysql. Delete it or make sure it is compatible with latest **percona-xtradb-cluster**.
 3. Before installation, stop MySQL service. 
 4. Install Percona-xtradb-cluster using following commands:
+```
+   # Add Percona Repository
+   sudo yum install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+   # Enable the Percona Repository
+   sudo persona-release setup pxc80
+   # Install Percona XtraDb Cluster
+   sudo yum install -y percona-xtradb-cluster
+```
+5. Verify installation by using following command:
+` mysql --version `
+You should see something like:
+` mysql Ver 8.0.36-28.1 for Linux on x86_64 (Percona XtraDB Cluster (GPL), Release rel28, Revision bfb687f, WSREP version 26.1.4.3 `
+6. Now, run following commands on both machines to check network connectivity between nodes.
+```
+# On machine with IP: 192.168.41.129
+ping 192.169.41.131
+# On machine with IP: 192.169.41.131
+ping 192.169.41.129
+```
+
+     
  
 
 
