@@ -14,7 +14,7 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 - Percona is based on Galera. And **Galera** only supports **row-level replication**.
 - _Row-level replication_ is a replication method where individual row changes (INSERT, UPDATE, DELETE) are copied from one database node to another.
 - _Galera_ is a **synchronous multi-master database replication** plugin that enables high-availability clustering for MySQL and MariaDB.
-- **SSL (Secure Sockets Layer)** certificates validation is very important during configuration.
+- **SSL (Secure Sockets Layer)** validation is very important during configuration.
 - All nodes must have same SSL certificates, otherwise **connection timeout errors** will occur.
 - _SSL certificates_ are digital credentials used at the _Presentation layer_ to encrypt data and ensure secure communication between clients and servers over the internet.
 - For this lab, I have to set the pxc-encrypt-cluster-traffic = OFF to bypass SSL security. By default, this attribute is ON. (_Not recommended for production level._)
