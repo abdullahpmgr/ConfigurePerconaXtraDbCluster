@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/f8847411-9067-4c0b-b3ef-873aaecef689)
+![image](https://github.com/user-attachments/assets/490ded0c-c9fa-40ee-a699-e594c2806885)
+
 
 # ConfigurePerconaXtraDbCluster
 This repository explains how to configure Percona XtraDb Cluster for MySQL InnoDB Engine using Oracle Linux 8-U5.
