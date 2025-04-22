@@ -62,7 +62,7 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
    # Add Percona Repository
    sudo yum install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
    # Enable the Percona Repository
-   sudo persona-release setup pxc80
+   sudo percona-release setup pxc80
    # Install Percona XtraDb Cluster
    sudo yum install -y percona-xtradb-cluster
 ```
@@ -77,8 +77,184 @@ ping 192.169.41.131
 # On machine with IP: 192.169.41.131
 ping 192.169.41.129
 ```
+7. Deactivate the firewall on both machines using following commands:
+   ```
+   sudo su - root
+   # To check firewall's status
+   systemctl status firewalld
+   # if it is active, stop it using following command
+   systemctl stop firewalld
+   # Also disable firewalld process
+   systemctl disable firewalld
+   # Make sure firewalld is inactive
+   systemctl status firewalld
+   ```
+8. Disable SELinux on both machines:
+   ```
+   # Open the security Linux file in vim editor
+   vi /etc/sysconfig/selinux
+   # Set SELinux to disabled
+   SELINUX = disabled
+   # Reboot the system
+   init 6
+   # Check the SELinux status
+   sestatus
+   ```
+   (If the firewall is inactive, selinux is disabled, and both machines are connected with eachother, we are good to go)
 
-     
+9. Open configuration file in Virtual Machine 01 (node1)
+   ```
+   # open my.cnf file in vim editor
+   vi /etc/my.cnf
+   --------------------------------------------- my.cnf -------------------------------------------------------------
+   # edit file like below:
+   # Template my.cnf for PXC
+   # Edit to your requirements.
+   [client]
+   socket = /var/lib/mysql/mysql.sock
+   [mysqld]
+   server-id = 1
+   datadir = /var/lib/mysql
+   socket = /var/lib/mysql/mysql.sock
+   log-error = /var/lib/mysqld.log
+   pid-file = /var/lib/mysqld/mysqld.pid
+   # Binary log expiration period is 604800 seconds, which equals 7 days
+   binlog_expire_logs_seconds = 604800
+   ######## wsrep ########
+   # Path to Galera Library
+   wsrep_provider = /usr/lib64/galera4/libgalera_smm.so
+   # Cluster connection URL IPs of nodes
+   # If no IP is found, this implies that a new cluster needs to be created,
+   # in order to do that you need to bootstrap this node
+   wsrep_cluster_address = gcomm://192.168.41.131, 192.168.41.129
+   # In order for Galera to work correctly binlog format should be ROW
+   binlog_format = ROW
+   # SLAVE thread to use
+   wsrep_slave_threads = 8
+   wsrep_log_conflits
+   # This changes how InnoDB autoincrement locks are managed and is a requirement for Galera
+   innodb_autoinc_lock_mode = 2
+   # Node IP address
+   # wsrep_node_address = 192.168.41.131
+   # Cluster name
+   wsrep_cluster_name = pxc_cluster
+   # If wsrep_node_name is not specified, then system hostname will be used
+   wsrep_node_name = node1
+   # pxc_strict_mode allowed values:
+   DISABLED, PERMISSIVE, ENFORCING, MASTER
+   pxc_strict_mode = DISABLED
+   pxc-encrypt-cluster-traffic = OFF
+   # important to turn off to bypass SSL certification layer. otherwise make sure all nodes have same SSL certificates
+   # SST method
+   wsrep_sst_method = xtrabackup-v2
+   [sst]
+   encrypt = 0
+
+   # important to set encrypt = 0, to bypass encrypt
+   -------------------------------------------------------------------------------------
+   ```
+   When done editing, save changes to file:
+   Press ESC.
+   :wq!  
+
+10. Open configuration file in Virtual Machine 02 (node2)
+   ```
+   # open my.cnf file in vim editor
+   vi /etc/my.cnf
+   --------------------------------------------- my.cnf -------------------------------------------------------------
+   # edit file like below:
+   # Template my.cnf for PXC
+   # Edit to your requirements.
+   [client]
+   socket = /var/lib/mysql/mysql.sock
+   [mysqld]
+   server-id = 2
+   datadir = /var/lib/mysql
+   socket = /var/lib/mysql/mysql.sock
+   log-error = /var/lib/mysqld.log
+   pid-file = /var/lib/mysqld/mysqld.pid
+   # Binary log expiration period is 604800 seconds, which equals 7 days
+   binlog_expire_logs_seconds = 604800
+   ######## wsrep ########
+   # Path to Galera Library
+   wsrep_provider = /usr/lib64/galera4/libgalera_smm.so
+   # Cluster connection URL IPs of nodes
+   # If no IP is found, this implies that a new cluster needs to be created,
+   # in order to do that you need to bootstrap this node
+   wsrep_cluster_address = gcomm://192.168.41.131, 192.168.41.129
+   # In order for Galera to work correctly binlog format should be ROW
+   binlog_format = ROW
+   # SLAVE thread to use
+   wsrep_slave_threads = 8
+   wsrep_log_conflits
+   # This changes how InnoDB autoincrement locks are managed and is a requirement for Galera
+   innodb_autoinc_lock_mode = 2
+   # Node IP address
+   # wsrep_node_address = 192.168.41.129
+   # Cluster name
+   wsrep_cluster_name = pxc_cluster
+   # If wsrep_node_name is not specified, then system hostname will be used
+   wsrep_node_name = node2
+   # pxc_strict_mode allowed values:
+   DISABLED, PERMISSIVE, ENFORCING, MASTER
+   pxc_strict_mode = DISABLED
+   pxc-encrypt-cluster-traffic = OFF
+   # important to turn off to bypass SSL certification layer. otherwise make sure all nodes have same SSL certificates
+   # SST method
+   wsrep_sst_method = xtrabackup-v2
+   [sst]
+   encrypt = 0
+
+   # important to set encrypt = 0, to bypass encrypt
+   -------------------------------------------------------------------------------------
+   ```
+   When done editing, save changes to file:
+   Press ESC.
+   :wq!  
+   
+11. Now, Start mysql@bootstrap in Virtual Machine 01 (node1):
+```
+sudo su - root
+systemctl start mysql@bootstrap
+# check the status of mysql@bootstrap
+systemctl status mysql@bootstrap
+```
+It should be ACTIVE now.
+```
+# OPEN MySQL
+mysql -u root -p
+# Enter password for root user
+# if you forget the roow user password:
+   # run the following command to get temporary password for root:
+   sudo grep 'temporary password' /var/log/mysqld.log
+
+# Enter the last password to enter into mysql.
+mysql -u root -p
+# Now, change the root user's password before any SQL
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPasswordForRoot';
+FLUSH PRIVILEGES;
+
+# Run the following command to make sure that the cluster has been initialized.
+show status LIKE 'wsrep%'
+# You should see the following output:
++------------------------------+--------------------------------------+
+| Variable_name                | Value                                |
++------------------------------+--------------------------------------+
+| wsrep_cluster_status         | Primary                              |
+| wsrep_connected              | ON                                   |
+| wsrep_ready                  | ON                                   |
+| wsrep_local_state_comment    | Synced                               |
+| wsrep_cluster_size           | 1                                    |
+| wsrep_local_state            | 4                                    |
+| wsrep_local_index            | 1                                    |
+| wsrep_incoming_addresses     | node1:3306,node2:3306,node3:3306     |
++------------------------------+--------------------------------------+
+```
+12. Now, on Virtual Machine 02 (node2), start mysql as normal service.
+   ` systemctl start mysql`
+If it is running, you should see that your cluster's size has now increased from 1 to 2.
+
+ 
  
 
 
