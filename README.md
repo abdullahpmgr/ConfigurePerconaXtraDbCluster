@@ -23,33 +23,31 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 ## Multi-Master Architecture vs Master-Slave Architecture
 
 ## Multi-Master Architecture
-All nodes can handle both reads and writes, offering high availability and scalability but **requiring conflict resolution**.
-  
-#### Definition: 
-In a multi-master architecture, all nodes in the cluster can handle both read and write operations. Changes made to any node are replicated to all other nodes in the cluster, ensuring data consistency across all nodes.
-#### Write Operations:
-- Write operations can be performed on any node in the cluster.
-- The changes are synchronously or asynchronously replicated to all other nodes in the cluster, ensuring that all nodes eventually have the same data.
-#### Read Operations:
-- Read operations can also be performed on any node, and the data is guaranteed to be consistent across all nodes (though in some configurations, there might be small delays due to replication lag).
+> All nodes can handle both reads and writes, offering high availability and scalability but **requiring conflict resolution**.
+>   
+> #### Definition: 
+> In a multi-master architecture, all nodes in the cluster can handle both read and write operations. Changes made to any node are replicated to all other nodes in the cluster, ensuring data consistency across all nodes.
+> #### Write Operations:
+> - Write operations can be performed on any node in the cluster.
+> - The changes are synchronously or asynchronously replicated to all other nodes in the cluster, ensuring that all nodes eventually have the same data.
+> #### Read Operations:
+> - Read operations can also be performed on any node, and the data is guaranteed to be consistent across all nodes (though in some configurations, there might be small delays due to replication lag).
 
 ## Master-Slave Architecture
-Only the master handles writes while slaves handle reads, making it simpler but limiting write scalability and posing a **single point of failure**.
+> Only the master handles writes while slaves handle reads, making it simpler but limiting write scalability and posing a **single point of failure**.
   
-#### Definition: 
-In a master-slave architecture, one node (the master) is responsible for handling all write operations, while one or more slave nodes handle read operations. The master node replicates its data to the slave nodes.
-#### Write Operations:
-- All write operations (insert, update, delete) are performed on the master node.
-- The master node sends the changes to the slave nodes to ensure they have the same data.
-#### Read Operations:
-- Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
+> #### Definition: 
+> In a master-slave architecture, one node (the master) is responsible for handling all write operations, while one or more slave nodes handle read operations. The master node replicates its data to the slave nodes.
+> #### Write Operations:
+> - All write operations (insert, update, delete) are performed on the master node.
+> - The master node sends the changes to the slave nodes to ensure they have the same data.
+> #### Read Operations:
+> - Read operations can be distributed across the slave nodes to balance the load and reduce the pressure on the master node.
 
 ## Synchronous Replication vs Asynchronous Replication
-> **In synchronous replication**, when a write operation (e.g., insert, update, delete) is performed on the primary node, the system ensures that the data is immediately written to all replica nodes before the operation is considered complete. Synchronous Replication: Data is written to all nodes simultaneously, ensuring consistency but introducing potential latency due to the need for all nodes to confirm the write.
-- Synchronous replication prioritizes data consistency and no data loss but can suffer from higher latency and performance overhead.
+> **In synchronous replication**, when a write operation (e.g., insert, update, delete) is performed on the primary node, the system ensures that the data is immediately written to all replica nodes before the operation is considered complete.
 
 > **In asynchronous replication**, when a write operation is performed on the primary node, it is immediately confirmed without waiting for the replica nodes to receive the data. The changes are then replicated to the secondary nodes in the background, at a later time.
-- Asynchronous replication prioritizes performance and low-latency writes but can risk data inconsistency or loss in case of node failure before replication occurs.
 
 # In this Lab Manual 
 - We will build **cluster with 2 nodes** without Arbitrator Machine.
