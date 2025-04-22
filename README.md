@@ -3,7 +3,6 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 
 - Percona XtraDB Cluster (PXC) is an open-source, high-availability and high-performance solution for MySQL and MariaDB database clustering.
 - Cluster is a group of servers (nodes) working together to act as a single system for high availability, scalability, and fault tolerance. 
-- It is based on Galera Cluster and is designed to provide _**synchronous multi-master replication**_ for MySQL databases.
 
 ## Important to Know:
 - It is recommended by Percona that you build the cluster with **odd number** of nodes to maintain **quorum**.
