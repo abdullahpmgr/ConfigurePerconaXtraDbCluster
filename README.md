@@ -110,48 +110,66 @@ ping 192.169.41.129
    # open my.cnf file in vim editor
    vi /etc/my.cnf
    --------------------------------------------- my.cnf -------------------------------------------------------------
-   # edit file like below:
-   # Template my.cnf for PXC
-   # Edit to your requirements.
+   
+   # my.cnf for Percona XtraDB Cluster (PXC)
+   # Customize based on your environment
+   
    [client]
    socket = /var/lib/mysql/mysql.sock
+   
    [mysqld]
    server-id = 1
    datadir = /var/lib/mysql
    socket = /var/lib/mysql/mysql.sock
-   log-error = /var/lib/mysqld.log
-   pid-file = /var/lib/mysqld/mysqld.pid
-   # Binary log expiration period is 604800 seconds, which equals 7 days
+   log-error = /var/log/mysqld.log
+   pid-file = /var/run/mysqld/mysqld.pid
+   
+   # Binary log expiration period (7 days)
    binlog_expire_logs_seconds = 604800
-   ######## wsrep ########
-   # Path to Galera Library
+   
+   ######## Galera / wsrep Settings ########
+   
+   # Path to Galera library
    wsrep_provider = /usr/lib64/galera4/libgalera_smm.so
-   # Cluster connection URL IPs of nodes
-   # If no IP is found, this implies that a new cluster needs to be created,
-   # in order to do that you need to bootstrap this node
-   wsrep_cluster_address = gcomm://192.168.41.131, 192.168.41.129
-   # In order for Galera to work correctly binlog format should be ROW
+   
+   # Cluster node addresses (comma-separated, no space after comma)
+   # Use gcomm:// with IPs of all nodes in the cluster
+   wsrep_cluster_address = gcomm://192.168.41.131,192.168.41.129
+   
+   # Required for Galera
    binlog_format = ROW
-   # SLAVE thread to use
+   
+   # Number of replication threads
    wsrep_slave_threads = 8
-   wsrep_log_conflits
-   # This changes how InnoDB autoincrement locks are managed and is a requirement for Galera
+   
+   # Log conflicts (corrected key name)
+   wsrep_log_conflicts = ON
+   
+   # Required setting for Galera
    innodb_autoinc_lock_mode = 2
-   # Node IP address
+   
+   # Optional: define node IP address
    # wsrep_node_address = 192.168.41.131
+   
    # Cluster name
    wsrep_cluster_name = pxc_cluster
-   # If wsrep_node_name is not specified, then system hostname will be used
+   
+   # Optional: define node name (otherwise hostname is used)
    wsrep_node_name = node1
-   # pxc_strict_mode allowed values:
-   DISABLED, PERMISSIVE, ENFORCING, MASTER
+   
+   # PXC strict mode values: DISABLED, PERMISSIVE, ENFORCING, MASTER
    pxc_strict_mode = DISABLED
+   
+   # Cluster traffic encryption (set OFF for non-SSL cluster)
    pxc-encrypt-cluster-traffic = OFF
-   # important to turn off to bypass SSL certification layer. otherwise make sure all nodes have same SSL certificates
-   # SST method
+   
+   # SST (State Snapshot Transfer) method
    wsrep_sst_method = xtrabackup-v2
+   
    [sst]
+   # Disable SST encryption
    encrypt = 0
+
 
    # important to set encrypt = 0, to bypass encrypt
    -------------------------------------------------------------------------------------
@@ -165,48 +183,64 @@ ping 192.169.41.129
    # open my.cnf file in vim editor
    vi /etc/my.cnf
    --------------------------------------------- my.cnf -------------------------------------------------------------
-   # edit file like below:
-   # Template my.cnf for PXC
-   # Edit to your requirements.
+   # my.cnf for Percona XtraDB Cluster - Node 2
+   # Adjust settings as needed for your environment
+   
    [client]
    socket = /var/lib/mysql/mysql.sock
+   
    [mysqld]
    server-id = 2
    datadir = /var/lib/mysql
    socket = /var/lib/mysql/mysql.sock
-   log-error = /var/lib/mysqld.log
-   pid-file = /var/lib/mysqld/mysqld.pid
-   # Binary log expiration period is 604800 seconds, which equals 7 days
+   log-error = /var/log/mysqld.log
+   pid-file = /var/run/mysqld/mysqld.pid
+   
+   # Binary log expiration period (7 days)
    binlog_expire_logs_seconds = 604800
-   ######## wsrep ########
-   # Path to Galera Library
+   
+   ######## Galera / wsrep Settings ########
+   
+   # Path to Galera library
    wsrep_provider = /usr/lib64/galera4/libgalera_smm.so
-   # Cluster connection URL IPs of nodes
-   # If no IP is found, this implies that a new cluster needs to be created,
-   # in order to do that you need to bootstrap this node
-   wsrep_cluster_address = gcomm://192.168.41.131, 192.168.41.129
-   # In order for Galera to work correctly binlog format should be ROW
+   
+   # Cluster node addresses (comma-separated, no space after comma)
+   wsrep_cluster_address = gcomm://192.168.41.131,192.168.41.129
+   
+   # Required for Galera replication
    binlog_format = ROW
-   # SLAVE thread to use
+   
+   # Number of replication threads
    wsrep_slave_threads = 8
-   wsrep_log_conflits
-   # This changes how InnoDB autoincrement locks are managed and is a requirement for Galera
+   
+   # Log conflicts (corrected)
+   wsrep_log_conflicts = ON
+   
+   # Required InnoDB setting for Galera
    innodb_autoinc_lock_mode = 2
-   # Node IP address
+   
+   # Optional: node IP address
    # wsrep_node_address = 192.168.41.129
+   
    # Cluster name
    wsrep_cluster_name = pxc_cluster
-   # If wsrep_node_name is not specified, then system hostname will be used
+   
+   # Optional: define node name (otherwise hostname is used)
    wsrep_node_name = node2
-   # pxc_strict_mode allowed values:
-   DISABLED, PERMISSIVE, ENFORCING, MASTER
+   
+   # PXC strict mode: DISABLED, PERMISSIVE, ENFORCING, MASTER
    pxc_strict_mode = DISABLED
+   
+   # Disable encryption of cluster traffic (only use in trusted environments)
    pxc-encrypt-cluster-traffic = OFF
-   # important to turn off to bypass SSL certification layer. otherwise make sure all nodes have same SSL certificates
-   # SST method
+   
+   # SST (State Snapshot Transfer) method
    wsrep_sst_method = xtrabackup-v2
+   
    [sst]
+   # Disable SST encryption
    encrypt = 0
+
 
    # important to set encrypt = 0, to bypass encrypt
    -------------------------------------------------------------------------------------
