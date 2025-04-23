@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/d10f4291-14ab-4593-8bcc-062d22cb5244)![image](https://github.com/user-attachments/assets/490ded0c-c9fa-40ee-a699-e594c2806885)
+![image](https://github.com/user-attachments/assets/490ded0c-c9fa-40ee-a699-e594c2806885)
 
 
 # ConfigurePerconaXtraDbCluster
