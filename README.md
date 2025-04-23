@@ -61,25 +61,25 @@ This repository explains how to configure Percona XtraDb Cluster for MySQL InnoD
 2. If you already have mysql. Delete it or make sure it is compatible with latest **percona-xtradb-cluster**.
 3. Before installation, stop MySQL service. 
 4. Install Percona-xtradb-cluster using following commands:
-```
+   ```
    # Add Percona Repository
    sudo yum install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
    # Enable the Percona Repository
    sudo percona-release setup pxc80
    # Install Percona XtraDb Cluster
    sudo yum install -y percona-xtradb-cluster
-```
+   ```
 5. Verify installation by using following command:
 ` mysql --version `
 You should see something like:
 ` mysql Ver 8.0.36-28.1 for Linux on x86_64 (Percona XtraDB Cluster (GPL), Release rel28, Revision bfb687f, WSREP version 26.1.4.3 `
 6. Now, run following commands on both machines to check network connectivity between nodes.
-```
+   ```
    # On machine with IP: 192.168.41.129
    ping 192.169.41.131
    # On machine with IP: 192.169.41.131
    ping 192.169.41.129
-```
+   ```
 7. Deactivate the firewall on both machines using following commands:
    ```
    sudo su - root
@@ -250,14 +250,14 @@ You should see something like:
    :wq!  
    
 11. Now, Start mysql@bootstrap in Virtual Machine 01 (node1):
-```
+   ```
    sudo su - root
    systemctl start mysql@bootstrap
    # check the status of mysql@bootstrap
    systemctl status mysql@bootstrap
-```
+   ```
 It should be ACTIVE now.
-```
+   ```
    # OPEN MySQL
    mysql -u root -p
    # Enter password for root user
@@ -286,7 +286,7 @@ It should be ACTIVE now.
    | wsrep_local_index            | 1                                    |
    | wsrep_incoming_addresses     | node1:3306,node2:3306,node3:3306     |
    +------------------------------+--------------------------------------+
-```
+   ```
 12. Now, on Virtual Machine 02 (node2), start mysql as normal service.
    ` systemctl start mysql`
 If it is running, you should see that your cluster's size has now increased from 1 to 2.
