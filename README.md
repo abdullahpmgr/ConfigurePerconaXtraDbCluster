@@ -315,7 +315,7 @@ Galera Arbitrator is a member of Percona XtraDb Cluster that is used for voting 
 
  ![image](https://github.com/user-attachments/assets/906a6683-78ac-457b-aef3-13408b94d9c8)
 ---
-[Galera Arbitrator](https://galeracluster.com/library/documentation/arbitrator.html)
+[Galera Arbitrator Documentation](https://galeracluster.com/library/documentation/arbitrator.html)
  
 
 
