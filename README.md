@@ -290,6 +290,30 @@ It should be ACTIVE now.
    ` systemctl start mysql`
 If it is running, you should see that your cluster's size has now increased from 1 to 2.
 
+# Restarting the Cluster
+Galera Clusters are generally meant to run non-stop, so shutting down the entire cluster is not required during normal operation. Yet, if there is a need to perform such procedure, it is likely that it will be happening under pressure, so it is important for it to complete safely and as quickly as possible in order to avoid extended downtime and potential data loss.
+
+## Whole Cluster Restart
+First, a few words on cluster restart in general. Regardless of whether it was an orderly shutdown or a sudden crash of all nodes, restarting the entire cluster is governed by the following principles:
+- Since the old cluster no longer logically exists, a new logical cluster is being created.
+- The first node being started must be bootstrapped.
+- _It is important to select the node that has the last transactions committed as the first node in the new cluster._
+- Yesterday, when I halted the machines, my VirtualMachine02 (node2) was the last to shutdown.
+- Now, I have to bootstrap VirtualMachine02 (node2) first.
+- And then we need to start mysql service normally on VirtualMachine01.
+- Follow the following document to understand _SAFE TO BOOTSTRAP FEATURE_. This feature facilitates to restart cluster again quickly in case of failure.
+- [Safe to Bootstrap Feature in Galera Cluster]([https://example.com](https://galeracluster.com/2016/11/introducing-the-safe-to-bootstrap-feature-in-galera-cluster/))
+
+# Adding Galera Arbitrator machine
+   ## Galera Arbitrator:
+      Galera Arbitrator is a member of Percona XtraDb Cluster that is used for voting in case you have small number of servers (usually two) and don't want to add any more resources.
+      Galera Arbitrator does not need a dedicated server. It can be installed on a machine running some other application. Just make sure it has good network connectivity.
+      When deploying a Galera Cluster, it's recommended that you use a minimum of three instances: Three nodes, three data centers and so on.
+      If the cost of adding resources (e.g., a third data center) is too much, you can use Galera Arbitrator. Galera Arbitrator is a member of a cluster that participates in voting,
+      but not in actual replication.
+ 
+
+
  
  
 
