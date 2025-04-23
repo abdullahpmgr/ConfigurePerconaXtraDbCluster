@@ -314,6 +314,7 @@ Galera Arbitrator is a member of Percona XtraDb Cluster that is used for voting 
  Galera Arbitrator serves two purposes: When you have an even number of nodes, it functions as an odd node, to avoid split-brain situations. It can also request a consistent application state snapshot, which is useful in making backups. 
 
  ![image](https://github.com/user-attachments/assets/906a6683-78ac-457b-aef3-13408b94d9c8)
+---
 [Galera Arbitrator](https://galeracluster.com/library/documentation/arbitrator.html)
  
 
