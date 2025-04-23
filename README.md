@@ -75,10 +75,10 @@ You should see something like:
 ` mysql Ver 8.0.36-28.1 for Linux on x86_64 (Percona XtraDB Cluster (GPL), Release rel28, Revision bfb687f, WSREP version 26.1.4.3 `
 6. Now, run following commands on both machines to check network connectivity between nodes.
 ```
-# On machine with IP: 192.168.41.129
-ping 192.169.41.131
-# On machine with IP: 192.169.41.131
-ping 192.169.41.129
+   # On machine with IP: 192.168.41.129
+   ping 192.169.41.131
+   # On machine with IP: 192.169.41.131
+   ping 192.169.41.129
 ```
 7. Deactivate the firewall on both machines using following commands:
    ```
@@ -251,41 +251,41 @@ ping 192.169.41.129
    
 11. Now, Start mysql@bootstrap in Virtual Machine 01 (node1):
 ```
-sudo su - root
-systemctl start mysql@bootstrap
-# check the status of mysql@bootstrap
-systemctl status mysql@bootstrap
+   sudo su - root
+   systemctl start mysql@bootstrap
+   # check the status of mysql@bootstrap
+   systemctl status mysql@bootstrap
 ```
 It should be ACTIVE now.
 ```
-# OPEN MySQL
-mysql -u root -p
-# Enter password for root user
-# if you forget the roow user password:
-   # run the following command to get temporary password for root:
-   sudo grep 'temporary password' /var/log/mysqld.log
-
-# Enter the last password to enter into mysql.
-mysql -u root -p
-# Now, change the root user's password before any SQL
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPasswordForRoot';
-FLUSH PRIVILEGES;
-
-# Run the following command to make sure that the cluster has been initialized.
-show status LIKE 'wsrep%'
-# You should see the following output:
-+------------------------------+--------------------------------------+
-| Variable_name                | Value                                |
-+------------------------------+--------------------------------------+
-| wsrep_cluster_status         | Primary                              |
-| wsrep_connected              | ON                                   |
-| wsrep_ready                  | ON                                   |
-| wsrep_local_state_comment    | Synced                               |
-| wsrep_cluster_size           | 1                                    |
-| wsrep_local_state            | 4                                    |
-| wsrep_local_index            | 1                                    |
-| wsrep_incoming_addresses     | node1:3306,node2:3306,node3:3306     |
-+------------------------------+--------------------------------------+
+   # OPEN MySQL
+   mysql -u root -p
+   # Enter password for root user
+   # if you forget the roow user password:
+      # run the following command to get temporary password for root:
+      sudo grep 'temporary password' /var/log/mysqld.log
+   
+   # Enter the last password to enter into mysql.
+   mysql -u root -p
+   # Now, change the root user's password before any SQL
+   ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPasswordForRoot';
+   FLUSH PRIVILEGES;
+   
+   # Run the following command to make sure that the cluster has been initialized.
+   show status LIKE 'wsrep%'
+   # You should see the following output:
+   +------------------------------+--------------------------------------+
+   | Variable_name                | Value                                |
+   +------------------------------+--------------------------------------+
+   | wsrep_cluster_status         | Primary                              |
+   | wsrep_connected              | ON                                   |
+   | wsrep_ready                  | ON                                   |
+   | wsrep_local_state_comment    | Synced                               |
+   | wsrep_cluster_size           | 1                                    |
+   | wsrep_local_state            | 4                                    |
+   | wsrep_local_index            | 1                                    |
+   | wsrep_incoming_addresses     | node1:3306,node2:3306,node3:3306     |
+   +------------------------------+--------------------------------------+
 ```
 12. Now, on Virtual Machine 02 (node2), start mysql as normal service.
    ` systemctl start mysql`
