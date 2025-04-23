@@ -239,8 +239,7 @@ You should see something like:
    
    [sst]
    # Disable SST encryption
-   encrypt = 0
-
+   encrypt = 
 
    # important to set encrypt = 0, to bypass encrypt
    -------------------------------------------------------------------------------------
