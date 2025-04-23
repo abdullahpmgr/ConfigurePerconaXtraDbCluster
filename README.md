@@ -306,12 +306,10 @@ First, a few words on cluster restart in general. Regardless of whether it was a
 
 # Adding Galera Arbitrator machine
    ## Galera Arbitrator:
-Galera Arbitrator is a member of Percona XtraDb Cluster that is used for voting in case you have small number of servers (usually two) and don't want to add any more resources. Galera Arbitrator does not need a dedicated server. It can be installed on a machine running some other application. Just make sure it has good network connectivity. When deploying a Galera Cluster, it's recommended that you use a minimum of three instances: Three nodes, three data centers and so on. If the cost of adding resources (e.g., a third data center) is too much, you can use Galera Arbitrator. Galera Arbitrator is a member of a cluster that participates in voting, but not in actual replication.
+Galera Arbitrator (garbd) is a lightweight member of the Percona XtraDB Cluster used for voting in quorum decisions, especially in small setups (e.g., 2 nodes) where adding a full database node is not feasible. It does not store or replicate data but ensures high availability by preventing split-brain issues. Garbd can run on a separate server, even one used for other purposes, as long as it maintains reliable network connectivity. It helps maintain an odd number of voters in the cluster. While it doesn’t handle data replication, its communication must be secured as it participates in cluster coordination.
 
 >    ### Warning: 
 >    While Galera Arbitrator does not replicate or store data, it participates in cluster communication and receives replication metadata to maintain quorum awareness.
-
- Galera Arbitrator serves two purposes: When you have an even number of nodes, it functions as an odd node, to avoid split-brain situations. It can also request a consistent application state snapshot, which is useful in making backups. 
 
  ![image](https://github.com/user-attachments/assets/906a6683-78ac-457b-aef3-13408b94d9c8)
 ---
