@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/490ded0c-c9fa-40ee-a699-e594c2806885)
+![image](https://github.com/user-attachments/assets/d10f4291-14ab-4593-8bcc-062d22cb5244)![image](https://github.com/user-attachments/assets/490ded0c-c9fa-40ee-a699-e594c2806885)
 
 
 # ConfigurePerconaXtraDbCluster
@@ -308,10 +308,15 @@ First, a few words on cluster restart in general. Regardless of whether it was a
    ## Galera Arbitrator:
 Galera Arbitrator is a member of Percona XtraDb Cluster that is used for voting in case you have small number of servers (usually two) and don't want to add any more resources. Galera Arbitrator does not need a dedicated server. It can be installed on a machine running some other application. Just make sure it has good network connectivity. When deploying a Galera Cluster, it's recommended that you use a minimum of three instances: Three nodes, three data centers and so on. If the cost of adding resources (e.g., a third data center) is too much, you can use Galera Arbitrator. Galera Arbitrator is a member of a cluster that participates in voting, but not in actual replication.
 
-   ### Warning: 
-   While Galera Arbitrator does not participate in replication, it does receive the same data as all other nodes. _You must secure its network connection._
+>    ### Warning: 
+>    While Galera Arbitrator does not participate in replication, it does receive the same data as all other nodes. _You must secure its network connection._
 
  Galera Arbitrator serves two purposes: When you have an even number of nodes, it functions as an odd node, to avoid split-brain situations. It can also request a consistent application state snapshot, which is useful in making backups. 
+
+ ![image](https://github.com/user-attachments/assets/906a6683-78ac-457b-aef3-13408b94d9c8)
+[Galera Arbitrator](https://galeracluster.com/library/documentation/arbitrator.html)
+ 
+
 
 
  
